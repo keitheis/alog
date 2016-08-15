@@ -1,6 +1,5 @@
 import os
 import sys
-import warnings
 from logging import (
     Logger, StreamHandler, Formatter,
 )
@@ -11,13 +10,13 @@ else:  # pragma: no cover
     from logging import _logRecordFactory as logRecordFactory
 
 
-root_project_folder_name = "alog"
+default_root_name = "alog"
 
 
 class Alogger(Logger):
-    def __init__(self, project_folder_name, *args, **kwargs):
-        self.project_folder_name = project_folder_name
-        super(Alogger, self).__init__(project_folder_name, *args, **kwargs)
+    def __init__(self, root_name, *args, **kwargs):
+        self.root_name = root_name
+        super(Alogger, self).__init__(root_name, *args, **kwargs)
 
     def makeRecord(self, name, level, fn, lno, msg, args, exc_info,
                    func=None, extra=None, sinfo=None):
@@ -29,7 +28,7 @@ class Alogger(Logger):
         paths = []
         print(fn)
         for term in fn.split(os.sep):
-            if not found and term == self.project_folder_name:
+            if not found and term == self.root_name:
                 found = True
             elif found:
                 paths.append(term)
@@ -50,12 +49,12 @@ class Alogger(Logger):
 
 
 def init_logger():
-    alogger = Alogger(root_project_folder_name)
+    logger = Alogger(default_root_name)
     sh = StreamHandler()
-    alogger.addHandler(sh)
+    logger.addHandler(sh)
     fs = "%(asctime)s %(levelname)-5.5s [%(pathname)s:%(lineno)s] %(message)s"
-    set_format(fs, logger=alogger)
-    return alogger
+    set_format(fs, logger=logger)
+    return logger
 
 
 def set_level(level, logger=None):
@@ -85,50 +84,22 @@ def get_format(logger=None):
             return handler.formatter
 
 
-def set_project_folder_name(project_folder_name, logger=None):
+def set_root_name(root_name, logger=None):
     logger = logger or alogger
-    logger.name = project_folder_name
-    logger.project_folder_name = project_folder_name
+    logger.name = root_name
+    logger.root_name = root_name
 
 
 alogger = init_logger()
-
-
-def critical(msg, *args, **kwargs):
-    alogger.critical(msg, *args, **kwargs)
-
+critical = alogger.critical
 fatal = critical
-
-
-def error(msg, *args, **kwargs):
-    alogger.error(msg, *args, **kwargs)
-
-
-def exception(msg, *args, **kwargs):
-    kwargs['exc_info'] = 1
-    error(msg, *args, **kwargs)
-
-
-def warning(msg, *args, **kwargs):
-    alogger.warning(msg, *args, **kwargs)
-
-
-def warn(msg, *args, **kwargs):
-    warnings.warn("The 'warn' function is deprecated, "
-                  "use 'warning' instead", DeprecationWarning, 2)
-    warning(msg, *args, **kwargs)
-
-
-def info(msg, *args, **kwargs):
-    alogger.info(msg, *args, **kwargs)
-
-
-def debug(msg, *args, **kwargs):
-    alogger.debug(msg, *args, **kwargs)
-
-
-def log(level, msg, *args, **kwargs):
-    alogger.log(level, msg, *args, **kwargs)
+error = alogger.error
+exception = alogger.exception
+warning = alogger.warning
+warn = alogger.warn
+info = alogger.info
+debug = alogger.debug
+log = alogger.log
 
 
 def disable(level):

@@ -20,8 +20,8 @@ class TestAlog(object):
         alog.set_format(fs)
         alog.set_format(orig_format)
 
-    def test_set_project_folder_name(self):
-        alog.set_project_folder_name("alog")
+    def test_set_root_name(self):
+        alog.set_root_name("alog")
 
     def test_critical(self):
         alog.critical(msg)
