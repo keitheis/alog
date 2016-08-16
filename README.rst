@@ -2,7 +2,7 @@
 Alog
 ====
 
-Alog is another log for human.
+Python logging for Humans.
 It's very easy to use in an application setting.
 
 For example
@@ -10,6 +10,7 @@ For example
 
 .. code-block:: python
 
-    import alog
+    import alog as log
 
-    alog.info("It just works.")
+    log.set_root_name("{your_project_root_name}")
+    log.info("It just works.")

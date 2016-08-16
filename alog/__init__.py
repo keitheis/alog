@@ -18,24 +18,33 @@ class Alogger(Logger):
         self.root_name = root_name
         super(Alogger, self).__init__(root_name, *args, **kwargs)
 
-    def makeRecord(self, name, level, fn, lno, msg, args, exc_info,
-                   func=None, extra=None, sinfo=None):
-        """
-        A factory method which can be overridden in subclasses to create
-        specialized LogRecords.
-        """
+    def _alog_fn(self, fn):
         found = False
         paths = []
-        print(fn)
+        if 'ipython-input-' in fn:
+            return "IPython"
+        elif fn == '<stdin>':
+            return 'stdin'
+
         for term in fn.split(os.sep):
             if not found and term == self.root_name:
                 found = True
             elif found:
                 paths.append(term)
 
-        dotted_fn = ".".join(paths).replace(".py", "")
+        return ".".join(paths).replace(".py", "")
 
-        lrargs = [name, level, dotted_fn, lno, msg, args, exc_info, func]
+    def makeRecord(self, name, level, fn, lno, msg, args, exc_info,
+                   func=None, extra=None, sinfo=None):
+        """
+        A factory method which can be overridden in subclasses to create
+        specialized LogRecords.
+        """
+        alog_fn = self._alog_fn(fn)
+        if lno == 1:
+            lno = ""
+
+        lrargs = [name, level, alog_fn, lno, msg, args, exc_info, func]
         if not PY2:  # pragma: no cover
             lrargs.append(sinfo)
         rv = logRecordFactory(*lrargs)
