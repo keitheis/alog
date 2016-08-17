@@ -10,27 +10,29 @@ else:  # pragma: no cover
     from logging import _logRecordFactory as logRecordFactory
 
 
-default_root_name = "alog"
-
-
 class Alogger(Logger):
     def __init__(self, root_name, *args, **kwargs):
         self.root_name = root_name
         super(Alogger, self).__init__(root_name, *args, **kwargs)
 
     def _alog_fn(self, fn):
-        found = False
-        paths = []
         if 'ipython-input-' in fn:
             return "IPython"
         elif fn == '<stdin>':
             return 'stdin'
 
-        for term in fn.split(os.sep):
-            if not found and term == self.root_name:
-                found = True
-            elif found:
-                paths.append(term)
+        paths = []
+        if self.root_name:
+            found = False
+            for term in fn.split(os.sep):
+                if not found and term == self.root_name:
+                    found = True
+                elif found:
+                    paths.append(term)
+        if not paths:
+            paths = fn.split(os.sep)
+            if len(paths) > 2:
+                paths = paths[-2:]
 
         return ".".join(paths).replace(".py", "")
 
@@ -57,7 +59,7 @@ class Alogger(Logger):
         return rv
 
 
-def init_logger():
+def init_logger(default_root_name=None):
     logger = Alogger(default_root_name)
     sh = StreamHandler()
     logger.addHandler(sh)
