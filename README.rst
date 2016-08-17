@@ -12,5 +12,4 @@ For example
 
     import alog as log
 
-    log.set_root_name("{your_project_root_name}")
     log.info("It just works.")
