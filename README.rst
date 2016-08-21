@@ -8,7 +8,7 @@ It's very easy to use in an application setting.
 For example
 ===========
 
-.. code-block:: python
+.. code-block::
 
   >>> import alog
   >>> alog.info("Hi.")
@@ -27,7 +27,7 @@ For example
 
 In IPython
 
-.. code-block:: python
+.. code-block::
 
   In [1]: >>> import alog
      ...: >>> alog.info("Hi.")
