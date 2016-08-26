@@ -121,5 +121,10 @@ debug = alogger.debug
 log = alogger.log
 
 
+def pformat(*args, **kwargs):
+    from pprint import pformat
+    return "\n" + pformat(*args, **kwargs)
+
+
 def disable(level):
     alogger.manager.disable = level
