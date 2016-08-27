@@ -9,6 +9,9 @@ msg = "msg: Testing alog."
 
 class TestAlog(object):
 
+    def setup(self):
+        alog.reset()
+
     def test_set_level(self):
         alog.set_level("WARNING")
         assert alog.get_level() == logging.WARNING
@@ -22,6 +25,7 @@ class TestAlog(object):
 
     def test_set_root_name(self):
         alog.set_root_name("alog")
+        alog.info(msg)
 
     def test_critical(self):
         alog.critical(msg)
@@ -45,6 +49,33 @@ class TestAlog(object):
     def test_warn(self):
         alog.warn(msg)
 
+    def test_showing_thread_name(self):
+        alog.showing_thread_name = True
+        alog.info(msg)
+        alog.showing_thread_name = False
+        alog.info(msg)
+
+    def test_showing_thread_name_with_custom_format(self):
+        alog.set_format("blah")
+        alog.showing_thread_name = True
+        alog.info(msg)
+
+    def test_showing_process_id(self):
+        alog.showing_process_id = True
+        alog.info(msg)
+        alog.showing_process_id = False
+        alog.info(msg)
+
+    def test_showing_process_id_with_custom_format(self):
+        alog.set_format("blah")
+        alog.showing_process_id = True
+        alog.info(msg)
+
+    def test_showing_process_id_and_showing_thread_name(self):
+        alog.showing_thread_name = True
+        alog.showing_process_id = True
+        alog.info(msg)
+
     def test_info(self):
         alog.info(msg)
 
@@ -63,6 +94,11 @@ class TestAlog(object):
             alog.info(msg, extra={'message': "Extra testing."})
         except KeyError:
             pass
+
+    def test_pformat(self):
+        msg = {'life is strange': True,
+               'list is weird': list(range(10))}
+        alog.info(alog.pformat(msg))
 
     def test_disable(self):
         alog.disable("INFO")
