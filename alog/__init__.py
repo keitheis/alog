@@ -130,13 +130,6 @@ class Alogger(Logger):
         A factory method which can be overridden in subclasses to create
         specialized LogRecords.
         """
-        if not (showing_process_id == self.showing_process_id
-                == showing_thread_name == self.showing_thread_name):
-            print(showing_process_id, self.showing_process_id, ':',
-                  showing_thread_name, self.showing_thread_name)
-        # print('P', showing_process_id, ':self', self.showing_process_id,
-        #       '-',
-        #       'T', showing_thread_name, ':self', self.showing_thread_name)
         if showing_process_id != self.showing_process_id:
             self.showing_process_id = showing_process_id
         if showing_thread_name != self.showing_thread_name:
