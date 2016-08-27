@@ -1,12 +1,14 @@
-====
 Alog
 ====
+
+.. image:: https://travis-ci.org/keitheis/alog.png?branch=master
+        :target: https://travis-ci.org/keitheis/alog
 
 Python logging for Humans.
 It's very easy to use in an application setting.
 
 For example
-===========
+-----------
 
 .. code-block::
 
