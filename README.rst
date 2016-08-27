@@ -1,8 +1,11 @@
-.. image:: https://travis-ci.org/keitheis/alog.png?branch=master
-        :target: https://travis-ci.org/keitheis/alog
-
 Alog
 ====
+
+.. image:: https://travis-ci.org/keitheis/alog.png?branch=master
+  :target: https://travis-ci.org/keitheis/alog
+
+.. image:: https://codecov.io/gh/keitheis/alog/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/keitheis/alog
 
 Python logging for Humans.
 It's very easy to use in an application setting.
