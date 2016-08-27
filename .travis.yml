@@ -23,6 +23,9 @@ install:
 script:
   - travis_retry tox
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 notifications:
   email:
     - yang@keitheis.org
