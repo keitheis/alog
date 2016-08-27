@@ -1,3 +1,9 @@
+0.9.8 (2016-08-27)
+==================
+
+ - Support showing_thread_name and showing_process_id.
+ - Support global reset.
+
 0.9.7 (2016-08-17)
 ==================
 

@@ -12,8 +12,6 @@ except IOError:
     README = CHANGES = ''
 
 testing_extras = [
-    'pytest',
-    'coverage',
     'pytest-cov',
 ]
 
@@ -23,7 +21,7 @@ docs_extras = [
 
 setup(
     name='alog',
-    version='0.9.7',
+    version='0.9.8',
     description='Python logging for Humans',
     long_description='',
     url='https://github.org/keitheis/alog',
