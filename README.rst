@@ -7,6 +7,9 @@ Alog
 .. image:: https://codecov.io/gh/keitheis/alog/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/keitheis/alog
 
+.. image:: http://img.shields.io/pypi/v/alog.svg?style=flat
+   :target: https://pypi.python.org/pypi/alog
+
 Python logging for Humans.
 It's very easy to use in an application setting.
 

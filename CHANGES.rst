@@ -1,3 +1,8 @@
+0.9.10 (2016-XX-XX)
+==================
+
+ - Update package info and usage (setup.py, README, ...).
+
 0.9.9 (2016-08-28)
 ==================
 
