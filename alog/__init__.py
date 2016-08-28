@@ -10,14 +10,30 @@ else:  # pragma: no cover
     from logging import _logRecordFactory as logRecordFactory
 
 
-showing_thread_name = False
-showing_process_id = False
+def default_config():
+    return {
+        "custom_format": None,
+        "showing_thread_name": False,
+        "showing_process_id": False,
+        "default_format":
+            "%(asctime)s %(levelname)-5.5s %(pathname)s%(lineno)s%(message)s",
+        "default_thread_format": (
+            "%(asctime)s %(levelname)-5.5s %(threadName)s "
+            "%(pathname)s%(lineno)s%(message)s"),
+        "default_process_format": (
+            "%(asctime)s %(levelname)-5.5s PID:%(process)d "
+            "%(pathname)s%(lineno)s%(message)s"),
+        "default_process_thread_format": (
+            "%(asctime)s %(levelname)-5.5s PID:%(process)d:"
+            "%(threadName)s %(pathname)s%(lineno)s%(message)s"
+        )
+    }
+config = default_config()
 
 
 def reset():
     global alogger
-    global showing_thread_name
-    global showing_process_id
+    global config
     global critical
     global fatal
     global error
@@ -27,9 +43,9 @@ def reset():
     global info
     global debug
     global log
-    showing_thread_name = False
-    showing_process_id = False
+    config = default_config()
     alogger = init_logger()
+    alogger.aconfig = config
     critical = alogger.critical
     fatal = critical
     error = alogger.error
@@ -41,67 +57,49 @@ def reset():
     log = alogger.log
 
 
+def show_thread_name(ok):
+    if (alogger.aconfig.get('custom_format')
+            or alogger.aconfig['showing_thread_name'] == bool(ok)):
+        return
+
+    alogger.aconfig['showing_thread_name'] = bool(ok)
+    if ok:
+        if alogger.aconfig.get('showing_process_id'):
+            fs = alogger.aconfig['default_process_thread_format']
+        else:
+            fs = alogger.aconfig['default_thread_format']
+    elif alogger.aconfig.get('showing_process_id'):
+        fs = alogger.aconfig['default_process_format']
+    else:
+        fs = alogger.aconfig['default_format']
+    set_format(fs, alogger, is_default=True)
+
+
+def show_process_id(ok):
+    if (alogger.aconfig.get('custom_format')
+            or alogger.aconfig['showing_process_id'] == bool(ok)):
+        return
+
+    alogger.aconfig['showing_process_id'] = bool(ok)
+    if ok:
+        if alogger.aconfig.get('showing_thread_name'):
+            fs = alogger.aconfig['default_process_thread_format']
+        else:
+            fs = alogger.aconfig['default_process_format']
+    elif alogger.aconfig.get('showing_thread_name'):
+        fs = alogger.aconfig['default_thread_format']
+    else:
+        fs = alogger.aconfig['default_format']
+    set_format(fs, alogger, is_default=True)
+
+
 class Alogger(Logger):
 
-    custom_format = None
-    _default_format = \
-        "%(asctime)s %(levelname)-5.5s %(pathname)s%(lineno)s%(message)s"
-    _default_thread_format = ("%(asctime)s %(levelname)-5.5s %(threadName)s "
-                              "%(pathname)s%(lineno)s%(message)s")
-    _default_process_format = ("%(asctime)s %(levelname)-5.5s PID:%(process)d "
-                               "%(pathname)s%(lineno)s%(message)s")
-    _default_process_thread_format = (
-        "%(asctime)s %(levelname)-5.5s PID:%(process)d:"
-        "%(threadName)s %(pathname)s%(lineno)s%(message)s"
-    )
-    _showing_thread_name = showing_thread_name
-    _showing_process_id = showing_process_id
+    aconfig = config
 
     def __init__(self, root_name, *args, **kwargs):
         self.root_name = root_name
         super(Alogger, self).__init__(root_name, *args, **kwargs)
-
-    @property
-    def default_format(self):
-        return self._default_format
-
-    @property
-    def showing_thread_name(self):
-        return self._showing_thread_name
-
-    @showing_thread_name.setter
-    def showing_thread_name(self, value):
-        self._showing_thread_name = bool(value)
-        if self.custom_format:
-            return
-
-        if self.showing_thread_name:
-            fs = self._default_process_thread_format \
-                if self.showing_process_id else self._default_thread_format
-            set_format(fs, self, is_default=True)
-        else:
-            fs = self._default_process_format \
-                if self.showing_process_id else self.default_format
-            set_format(fs, self, is_default=True)
-
-    @property
-    def showing_process_id(self):
-        return self._showing_process_id
-
-    @showing_process_id.setter
-    def showing_process_id(self, value):
-        self._showing_process_id = bool(value)
-        if self.custom_format:
-            return
-
-        if self.showing_process_id:
-            fs = self._default_process_thread_format \
-                if self.showing_thread_name else self._default_process_format
-            set_format(fs, self, is_default=True)
-        else:
-            fs = self._default_thread_format \
-                if self.showing_thread_name else self.default_format
-            set_format(fs, self, is_default=True)
 
     def _alog_fn(self, fn):
         if 'ipython-input-' in fn:  # pragma: no cover
@@ -130,10 +128,6 @@ class Alogger(Logger):
         A factory method which can be overridden in subclasses to create
         specialized LogRecords.
         """
-        if showing_process_id != self.showing_process_id:
-            self.showing_process_id = showing_process_id
-        if showing_thread_name != self.showing_thread_name:
-            self.showing_thread_name = showing_thread_name
         alog_fn = self._alog_fn(fn)
         if (not lno) or lno == 1:  # pragma: no cover
             lno = ""
@@ -163,7 +157,7 @@ def init_logger(default_root_name=None):
     logger = Alogger(default_root_name)
     sh = StreamHandler()
     logger.addHandler(sh)
-    set_format(logger.default_format, logger, is_default=True)
+    set_format(logger.aconfig['default_format'], logger, is_default=True)
     return logger
 
 
@@ -186,7 +180,7 @@ def set_format(fs, logger=None, is_default=False):
     for handler in logger.handlers:
         handler.setFormatter(formatter)
     if not is_default:
-        logger.custom_format = fs
+        logger.aconfig['custom_format'] = fs
 
 
 def get_format(logger=None):
