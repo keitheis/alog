@@ -57,13 +57,13 @@ def reset():
     log = alogger.log
 
 
-def show_thread_name(ok):
+def turn_thread_name(on):
     if (alogger.aconfig.get('custom_format')
-            or alogger.aconfig['showing_thread_name'] == bool(ok)):
+            or alogger.aconfig['showing_thread_name'] == bool(on)):
         return
 
-    alogger.aconfig['showing_thread_name'] = bool(ok)
-    if ok:
+    alogger.aconfig['showing_thread_name'] = bool(on)
+    if on:
         if alogger.aconfig.get('showing_process_id'):
             fs = alogger.aconfig['default_process_thread_format']
         else:
@@ -75,13 +75,13 @@ def show_thread_name(ok):
     set_format(fs, alogger, is_default=True)
 
 
-def show_process_id(ok):
+def turn_process_id(on):
     if (alogger.aconfig.get('custom_format')
-            or alogger.aconfig['showing_process_id'] == bool(ok)):
+            or alogger.aconfig['showing_process_id'] == bool(on)):
         return
 
-    alogger.aconfig['showing_process_id'] = bool(ok)
-    if ok:
+    alogger.aconfig['showing_process_id'] = bool(on)
+    if on:
         if alogger.aconfig.get('showing_thread_name'):
             fs = alogger.aconfig['default_process_thread_format']
         else:

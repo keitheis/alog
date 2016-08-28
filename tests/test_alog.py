@@ -49,43 +49,35 @@ class TestAlog(object):
     def test_warn(self):
         alog.warn(msg)
 
-    def test_show_thread_name(self):
-        alog.show_process_id(True)
-        alog.show_thread_name(True)
+    def test_turn_thread_name(self):
+        alog.turn_process_id(True)
+        alog.turn_thread_name(True)
 
-    def test_show_thread_name_with_custom_format(self):
+    def test_turn_thread_name_with_custom_format(self):
         alog.set_format("blah")
-        alog.show_thread_name(True)
+        alog.turn_thread_name(True)
 
-    def test_show_process_id(self):
-        alog.show_thread_name(True)
-        alog.show_process_id(True)
-
-    def test_show_process_id_with_custom_format(self):
+    def test_turn_process_id_with_custom_format(self):
         alog.set_format("blah")
-        alog.show_process_id(True)
+        alog.turn_process_id(True)
 
-    def test_not_show_thread_name(self):
-        alog.show_thread_name(True)
-        alog.show_thread_name(False)
+    def test_not_turn_thread_name(self):
+        alog.turn_thread_name(True)
+        alog.turn_thread_name(False)
 
-    def test_not_show_process_id(self):
-        alog.show_process_id(True)
-        alog.show_process_id(False)
+    def test_not_turn_process_id(self):
+        alog.turn_process_id(True)
+        alog.turn_process_id(False)
 
-    def test_not_show_process_id_and_show_thread_name(self):
-        alog.show_thread_name(True)
-        alog.show_process_id(True)
-        alog.show_process_id(False)
+    def test_not_turn_process_id_and_turn_thread_name(self):
+        alog.turn_thread_name(True)
+        alog.turn_process_id(True)
+        alog.turn_process_id(False)
 
-    def test_show_process_id_and_not_show_thread_name(self):
-        alog.show_thread_name(True)
-        alog.show_process_id(True)
-        alog.show_thread_name(False)
-
-    def test_show_process_id_and_show_thread_name(self):
-        alog.show_thread_name(True)
-        alog.show_process_id(True)
+    def test_turn_process_id_and_not_turn_thread_name(self):
+        alog.turn_thread_name(True)
+        alog.turn_process_id(True)
+        alog.turn_thread_name(False)
 
     def test_info(self):
         alog.info(msg)
