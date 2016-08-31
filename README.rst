@@ -41,17 +41,21 @@ Installation
 Features 
 --------
 
- - Instant logging.
-    No more context switch at a moment when you want to do logging.
+- Instant logging.
 
- - Best default.
-    Alog comes with best enough default.
+  No more context switch at a moment when you want to do logging.
 
- - Compatible with default Python logging module.
-    Alog is built upon default Python logging module. You can configure it in
-    the same way of default Python logging module.
+- Best default.
 
- - No more **__name__** in every file you just want to do logging.
-    It build the default module names on the fly. 
+  Alog comes with best enough default.
+
+- Compatible with default Python logging module.
+
+  Alog is built upon default Python logging module. You can configure it in
+  the same way of default Python logging module.
+
+- No more **__name__** in every file you just want to do logging.
+
+  It build the default module names on the fly. 
 
 See alog v.s. Python default logging.
