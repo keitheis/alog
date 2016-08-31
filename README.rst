@@ -10,11 +10,10 @@ Alog
 .. image:: http://img.shields.io/pypi/v/alog.svg?style=flat
    :target: https://pypi.python.org/pypi/alog
 
-Python logging for Humans.
-It's very easy to use in an application setting.
+Python logging for Humans. Your goto logging module without panic.
+With it you can log and debug without leaving coding flow.
 
-For example
------------
+**Warning:** No more `logger = logging.getLogger(__name__)` in your every file.
 
 .. code-block::
 
@@ -32,18 +31,27 @@ For example
   >>> test()
   2016-08-18 20:45:41,788 ERROR <stdin:3> Test 2
 
-
-In IPython
+Installation
+------------
 
 .. code-block::
 
-  In [1]: >>> import alog
-     ...: >>> alog.info("Hi.")
-     ...: >>> alog.error("Och!")
-     ...: >>> alog.set_level("ERROR")
-     ...: >>> alog.info("Hi.")
-     ...: >>> alog.error("Och!")
-     ...:
-  2016-08-18 20:42:57,801 INFO  <IPython:2> Hi.
-  2016-08-18 20:42:57,801 ERROR <IPython:3> Och!
-  2016-08-18 20:42:57,802 ERROR <IPython:6> Och!
+  pip install alog
+
+Features 
+--------
+
+ - Instant logging.
+    No more context switch at a moment when you want to do logging.
+
+ - Best default.
+    Alog comes with best enough default.
+
+ - Compatible with default Python logging module.
+    Alog is built upon default Python logging module. You can configure it in
+    the same way of default Python logging module.
+
+ - No more **__name__** in every file you just want to do logging.
+    It build the default module names on the fly. 
+
+See alog v.s. Python default logging.
