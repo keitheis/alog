@@ -54,7 +54,7 @@ Features
   Alog is built upon default Python logging module. You can configure it in
   the same way of default Python logging module.
 
-- No more **__name__** in every file you just want to do logging.
+- No more **__name__** in every file whenever you just want to do logging.
 
   It build the default module names on the fly. 
 
