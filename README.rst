@@ -128,7 +128,7 @@ What you got output of `alog.info`::
 
 In the output of hundreds of lines, this helps (a lot).
 
-What if you have alread use print a log? That's as easy::
+What if you have already use print a log? That's as easy::
 
   import alog
 
