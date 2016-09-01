@@ -49,11 +49,11 @@ Features
   about context switch to how to integrate Python logging module. Alog comes 
   with these defaults you can rely:
 
-    - A default logger.
-    - Logging level: logging.INFO
-    - Logging format::
+  - A default logger.
+  - Logging level: logging.INFO
+  - Logging format::
 
-      "%(asctime)s %(levelname)-5.5s [parent_module.current_module:%(lineno)s]%(message)s"
+    "%(asctime)s %(levelname)-5.5s [parent_module.current_module:%(lineno)s]%(message)s"
 
 - No more **__name__** in every file whenever you just want to do logging.
 
@@ -94,44 +94,44 @@ with `logging` module::
 Why logging (instead of print)
 ------------------------------
 
-  The main goal of logging is to figure out what was going on and get its
-  insight. `print`, by default, has only do pure output. No timestamp, no 
-  which module it is in, and no level control, comparing to logging.
+The main goal of logging is to figure out what was going on and get its
+insight. `print`, by default, has only do pure output. No timestamp, no 
+which module it is in, and no level control, comparing to logging.
 
-  Lets try with `aproject/models/user.py`::
+Lets try with `aproject/models/user.py`::
 
-    class User:
-        def __init__(self, user_id, username):
-            ...
-            print(username)
-            ...
+  class User:
+      def __init__(self, user_id, username):
+          ...
+          print(username)
+          ...
 
-  What you got output of `print`::
-  
-    >>> admin = User(1, "admin")
-    "admin"
+What you got output of `print`::
 
-  Now, use alog instead::
+  >>> admin = User(1, "admin")
+  "admin"
 
-    import alog
+Now, use alog instead::
 
-    class User:
-        def __init__(self, user_id, username):
-            ...
-            alog.info(username)
-            ...
+  import alog
 
-  What you got output of `alog.info`::
-  
-    >>> admin = User(1, "admin")
-    2016-09-01 01:32:58,063 INFO  [models.user:6] admin
+  class User:
+      def __init__(self, user_id, username):
+          ...
+          alog.info(username)
+          ...
 
-  In the output of hundreds of lines, this helps (a lot).
+What you got output of `alog.info`::
 
-  What if you have alread use print a log? That's as easy::
+  >>> admin = User(1, "admin")
+  2016-09-01 01:32:58,063 INFO  [models.user:6] admin
 
-    import alog
+In the output of hundreds of lines, this helps (a lot).
 
-    print = alog.info
+What if you have alread use print a log? That's as easy::
 
-    ... # A lot of print code no needed to change
+  import alog
+
+  print = alog.info
+
+  ... # A lot of print code no needed to change
