@@ -24,7 +24,7 @@ setup(
     version='0.9.10-dev',
     description='Python logging for Humans',
     long_description=README + '\n\n' + CHANGES,
-    url='https://github.org/keitheis/alog',
+    url='https://github.com/keitheis/alog',
     author='Keith Yang',
     author_email='yang@keitheis.org',
     license='Apache 2.0',
