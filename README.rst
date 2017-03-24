@@ -13,9 +13,9 @@ Alog
 Python logging for Humans. Your goto logging module without panic on context 
 swtich.
 
-**Warning:** No more `logger = logging.getLogger(__name__)` in your every file.
+**Warning:** No more ``logger = logging.getLogger(__name__)`` in your every file.
 
-.. code-block::
+.. code-block:: python
 
   >>> import alog
   >>> alog.info("Hi.")
@@ -49,7 +49,7 @@ Features
   Alog comes with useful defaults:
 
   - A default logger.
-  - Logging level: logging.INFO
+  - Logging level: ``logging.INFO``
   - Logging format::
 
     "%(asctime)s %(levelname)-5.5s [parent_module.current_module:%(lineno)s]%(message)s"
@@ -58,23 +58,27 @@ Features
 
   Alog builds the default module names on the fly. 
 
-- Compatible with default Python logging module.
+- Compatible with default Python ``logging`` module.
 
   Alog is built upon default Python logging module. You can configure it by
   the same way of default Python logging module when it's needed.
 
 
-Comparing `alog` with Python default `logging` module
------------------------------------------------------
+Comparing ``alog`` with Python default ``logging`` module
+---------------------------------------------------------
 
-Comparing `alog`::
+Comparing ``alog`` :
+
+.. code-block:: python
 
     In [1]: import alog
 
     In [2]: alog.info("Hello alog!")
     2016-09-01 02:20:34,729 INFO  <IPython> Hello alog!
 
-with `logging` module::
+with ``logging`` module:
+
+.. code-block:: python
 
     In [1]: import logging
 
@@ -94,10 +98,12 @@ Why should you use logging instead of print
 -------------------------------------------
 
 The main goal of logging is to figure out what was going on and to get the
-insights. `print`, by default, does only pure string output. No timestamp, no
+insights. ``print``, by default, does only pure string output. No timestamp, no
 module hint, and no level control, comparing to a pretty logging record.
 
-Lets start with `aproject/models/user.py`::
+Lets start with ``aproject/models/user.py`` :
+
+.. code-block:: python
 
   class User:
       def __init__(self, user_id, username):
@@ -105,12 +111,17 @@ Lets start with `aproject/models/user.py`::
           print(username)
           ...
 
-What you got output of `print`::
+What you got output of ``print`` :
+
+.. code-block:: python
 
   >>> admin = User(1, "admin")
   "admin"
 
-Now, use alog instead::
+
+Now use ``alog`` :
+
+.. code-block:: python
 
   import alog
 
@@ -120,14 +131,18 @@ Now, use alog instead::
           alog.info(username)
           ...
 
-What you got output of `alog.info`::
+What you got output of ``alog.info`` :
+
+.. code-block:: python
 
   >>> admin = User(1, "admin")
   2016-09-01 01:32:58,063 INFO  [models.user:6] admin
 
 In the output of hundreds of lines, it helps (a lot).
 
-What if you have used `print` a log? That's as easy::
+What if you have used ``print`` a log? That's as easy:
+
+.. code-block:: python
 
   import alog
 
