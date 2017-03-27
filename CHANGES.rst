@@ -1,6 +1,8 @@
-0.9.10 (2016-XX-XX)
-==================
+0.9.10 (2017-03-27)
+===================
 
+ - Default logging format asctime to "%Y-%m-%d %H:%M:%S" instead of
+   "%Y-%m-%d,%H:%M:%S.%f".
  - Update package info and usage (setup.py, README, ...).
 
 0.9.9 (2016-08-28)

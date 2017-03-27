@@ -174,9 +174,11 @@ def get_level(logger=None):
             return handler.level
 
 
-def set_format(fs, logger=None, is_default=False):
+def set_format(fs, logger=None, is_default=False,
+               time_strfmt="%Y-%m-%d %H:%M:%S"):
     logger = logger or alogger
-    formatter = Formatter(fs, None) if PY2 else Formatter(fs, None, "%")
+    formatter = \
+        Formatter(fs, time_strfmt) if PY2 else Formatter(fs, time_strfmt, "%")
     for handler in logger.handlers:
         handler.setFormatter(formatter)
     if not is_default:

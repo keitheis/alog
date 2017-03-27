@@ -19,17 +19,17 @@ swtich.
 
   >>> import alog
   >>> alog.info("Hi.")
-  2016-08-18 20:44:30,208 INFO  <stdin> Hi.
+  2016-08-18 20:44:30 INFO  <stdin> Hi.
   >>> def test():
   ...     alog.info("Test 1")
   ...     alog.error("Test 2")
   ...
   >>> test()
-  2016-08-18 20:45:19,372 INFO  <stdin:2> Test 1
-  2016-08-18 20:45:19,372 ERROR <stdin:3> Test 2
+  2016-08-18 20:45:19 INFO  <stdin:2> Test 1
+  2016-08-18 20:45:19 ERROR <stdin:3> Test 2
   >>> alog.set_level("ERROR")
   >>> test()
-  2016-08-18 20:45:41,788 ERROR <stdin:3> Test 2
+  2016-08-18 20:45:41 ERROR <stdin:3> Test 2
 
 If you're new to logging, see `Why should you use logging instead of print`_.
 
@@ -52,7 +52,8 @@ Features
   - Logging level: ``logging.INFO``
   - Logging format::
 
-    "%(asctime)s %(levelname)-5.5s [parent_module.current_module:%(lineno)s]%(message)s"
+    "%(asctime)s %(levelname)-5.5s [parent_module.current_module:%(lineno)s]%(message)s",
+    "%Y-%m-%d %H:%M:%S"
 
 - No more **__name__** whenever you start to do logging in a module.
 
@@ -74,7 +75,7 @@ Comparing ``alog`` :
     In [1]: import alog
 
     In [2]: alog.info("Hello alog!")
-    2016-09-01 02:20:34,729 INFO  <IPython> Hello alog!
+    2016-09-01 02:20:34 INFO  <IPython> Hello alog!
 
 with ``logging`` module:
 
@@ -91,7 +92,7 @@ with ``logging`` module:
     In [4]: logger = logging.getLogger(__name__)
 
     In [5]: logger.info("Hello log!")
-    2016-09-01 02:16:30,432 INFO  [__main__:1] Hello log!
+    2016-09-01 02:16:30 INFO  [__main__:1] Hello log!
 
 
 Why should you use logging instead of print
@@ -136,7 +137,7 @@ What you got output of ``alog.info`` :
 .. code-block:: python
 
   >>> admin = User(1, "admin")
-  2016-09-01 01:32:58,063 INFO  [models.user:6] admin
+  2016-09-01 01:32:58 INFO  [models.user:6] admin
 
 In the output of hundreds of lines, it helps (a lot).
 
