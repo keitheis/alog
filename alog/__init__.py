@@ -58,8 +58,8 @@ def reset():
 
 
 def turn_thread_name(on):
-    if (alogger.aconfig.get('custom_format')
-            or alogger.aconfig['showing_thread_name'] == bool(on)):
+    if (alogger.aconfig.get('custom_format') or
+            alogger.aconfig['showing_thread_name'] == bool(on)):
         return
 
     alogger.aconfig['showing_thread_name'] = bool(on)
@@ -76,8 +76,8 @@ def turn_thread_name(on):
 
 
 def turn_process_id(on):
-    if (alogger.aconfig.get('custom_format')
-            or alogger.aconfig['showing_process_id'] == bool(on)):
+    if (alogger.aconfig.get('custom_format') or
+            alogger.aconfig['showing_process_id'] == bool(on)):
         return
 
     alogger.aconfig['showing_process_id'] = bool(on)
