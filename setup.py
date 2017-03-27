@@ -45,7 +45,7 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
-    keywords='simple basic application logging',
+    keywords='simple basic application logging print',
     packages=['alog'],
     package_data={'': ['LICENSE']},
     zip_safe=False,
