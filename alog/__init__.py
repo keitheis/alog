@@ -208,3 +208,10 @@ def disable(level):
 
 
 reset()
+
+
+def getLogger(name=None):
+    if name:
+        from logging import getLogger as logging_getLogger
+        return logging_getLogger(name)
+    return alogger
