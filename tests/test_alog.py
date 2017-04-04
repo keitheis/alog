@@ -106,10 +106,12 @@ class TestAlog(object):
     def test_disable(self):
         alog.disable("INFO")
 
-    def test_getLogger_with_name(self):
-        logger = alog.getLogger("root")
-        assert logger.name == "root"
+    def test_getLogger_with_argument(self):
+        logger = alog.getLogger("whatever_argument")
+        assert logger == alog.alogger
+        logger = alog.getLogger(whatever_keyword_argument="")
+        assert logger == alog.alogger
 
     def test_getLogger_without_name_given(self):
         logger = alog.getLogger()
-        assert logger.name is None
+        assert logger == alog.alogger

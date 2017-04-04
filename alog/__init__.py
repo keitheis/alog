@@ -152,8 +152,10 @@ def disable(level):
 reset()
 
 
-def getLogger(name=None):
-    if name:
-        from logging import getLogger as logging_getLogger
-        return logging_getLogger(name)
+def getLogger(*args, **kwargs):
+    if any(args) or any(kwargs):
+        from warnings import warn
+        msg = "alog.getLogger always return alogger. " \
+            "Use alog.getLogger() without arguments instead."
+        warn(msg)
     return alogger
