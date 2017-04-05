@@ -108,10 +108,10 @@ class TestAlog(object):
 
     def test_getLogger_with_argument(self):
         logger = alog.getLogger("whatever_argument")
-        assert logger == alog.alogger
+        assert logger == alog.default_logger
         logger = alog.getLogger(whatever_keyword_argument="")
-        assert logger == alog.alogger
+        assert logger == alog.default_logger
 
     def test_getLogger_without_name_given(self):
         logger = alog.getLogger()
-        assert logger == alog.alogger
+        assert logger == alog.default_logger

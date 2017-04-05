@@ -33,7 +33,7 @@ config = None
 
 
 def reset():
-    global alogger
+    global default_logger
     global config
     global critical
     global fatal
@@ -45,52 +45,52 @@ def reset():
     global debug
     global log
     config = default_alog_config()
-    alogger = init_logger(config)
-    critical = alogger.critical
+    default_logger = init_logger(config)
+    critical = default_logger.critical
     fatal = critical
-    error = alogger.error
-    exception = alogger.exception
-    warning = alogger.warning
-    warn = alogger.warn
-    info = alogger.info
-    debug = alogger.debug
-    log = alogger.log
+    error = default_logger.error
+    exception = default_logger.exception
+    warning = default_logger.warning
+    warn = default_logger.warn
+    info = default_logger.info
+    debug = default_logger.debug
+    log = default_logger.log
 
 
 def turn_thread_name(on):
-    if (alogger.alog_config.get('custom_format') or
-            alogger.alog_config['showing_thread_name'] == bool(on)):
+    if (default_logger.alog_config.get('custom_format') or
+            default_logger.alog_config['showing_thread_name'] == bool(on)):
         return
 
-    alogger.alog_config['showing_thread_name'] = bool(on)
+    default_logger.alog_config['showing_thread_name'] = bool(on)
     if on:
-        if alogger.alog_config.get('showing_process_id'):
-            fs = alogger.alog_config['default_process_thread_format']
+        if default_logger.alog_config.get('showing_process_id'):
+            fs = default_logger.alog_config['default_process_thread_format']
         else:
-            fs = alogger.alog_config['default_thread_format']
-    elif alogger.alog_config.get('showing_process_id'):
-        fs = alogger.alog_config['default_process_format']
+            fs = default_logger.alog_config['default_thread_format']
+    elif default_logger.alog_config.get('showing_process_id'):
+        fs = default_logger.alog_config['default_process_format']
     else:
-        fs = alogger.alog_config['default_format']
-    set_format(fs, alogger, is_default=True)
+        fs = default_logger.alog_config['default_format']
+    set_format(fs, default_logger, is_default=True)
 
 
 def turn_process_id(on):
-    if (alogger.alog_config.get('custom_format') or
-            alogger.alog_config['showing_process_id'] == bool(on)):
+    if (default_logger.alog_config.get('custom_format') or
+            default_logger.alog_config['showing_process_id'] == bool(on)):
         return
 
-    alogger.alog_config['showing_process_id'] = bool(on)
+    default_logger.alog_config['showing_process_id'] = bool(on)
     if on:
-        if alogger.alog_config.get('showing_thread_name'):
-            fs = alogger.alog_config['default_process_thread_format']
+        if default_logger.alog_config.get('showing_thread_name'):
+            fs = default_logger.alog_config['default_process_thread_format']
         else:
-            fs = alogger.alog_config['default_process_format']
-    elif alogger.alog_config.get('showing_thread_name'):
-        fs = alogger.alog_config['default_thread_format']
+            fs = default_logger.alog_config['default_process_format']
+    elif default_logger.alog_config.get('showing_thread_name'):
+        fs = default_logger.alog_config['default_thread_format']
     else:
-        fs = alogger.alog_config['default_format']
-    set_format(fs, alogger, is_default=True)
+        fs = default_logger.alog_config['default_format']
+    set_format(fs, default_logger, is_default=True)
 
 
 def init_logger(alog_config, default_root_name=None):
@@ -103,13 +103,13 @@ def init_logger(alog_config, default_root_name=None):
 
 
 def set_level(level, logger=None):
-    logger = logger or alogger
+    logger = logger or default_logger
     for handler in logger.handlers:
         handler.setLevel(level)
 
 
 def get_level(logger=None):
-    logger = logger or alogger
+    logger = logger or default_logger
     for handler in logger.handlers:
         if handler.level:
             return handler.level
@@ -117,7 +117,7 @@ def get_level(logger=None):
 
 def set_format(fs, logger=None, is_default=False,
                time_strfmt="%Y-%m-%d %H:%M:%S"):
-    logger = logger or alogger
+    logger = logger or default_logger
     formatter = Formatter(fs, time_strfmt) \
         if in_python2_runtime \
         else Formatter(fs, time_strfmt, "%")
@@ -128,14 +128,14 @@ def set_format(fs, logger=None, is_default=False,
 
 
 def get_format(logger=None):
-    logger = logger or alogger
+    logger = logger or default_logger
     for handler in logger.handlers:
         if handler.formatter:
             return handler.formatter
 
 
 def set_root_name(root_name, logger=None):
-    logger = logger or alogger
+    logger = logger or default_logger
     logger.name = root_name
     logger.root_name = root_name
 
@@ -146,7 +146,7 @@ def pformat(*args, **kwargs):
 
 
 def disable(level):
-    alogger.manager.disable = level
+    default_logger.manager.disable = level
 
 
 reset()
@@ -155,7 +155,7 @@ reset()
 def getLogger(*args, **kwargs):
     if any(args) or any(kwargs):
         from warnings import warn
-        msg = "alog.getLogger always return alogger. " \
+        msg = "alog.getLogger always return alog.default_logger. " \
             "Use alog.getLogger() without arguments instead."
         warn(msg)
-    return alogger
+    return default_logger
