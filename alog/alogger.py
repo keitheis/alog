@@ -48,7 +48,7 @@ class Alogger(Logger):
         else:
             lno = ":{}".format(lno)
 
-        lno += '] ' if '[' in alog_fn else '> '
+        lno += '] ' if alog_fn.startswith('[') else '> '
 
         if alog_fn in ('<IPython>', '<stdin>'):  # pragma: no cover
             if func != '<module>':
