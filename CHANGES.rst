@@ -1,4 +1,4 @@
-0.9.11 (Unrelease)
+0.9.11 (2017-04-07)
 ===================
 
  - Add ``alog.getLogger()`` for handy replacing ``logging.getLogger``.
