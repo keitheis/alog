@@ -29,10 +29,8 @@ def default_alog_config():
     }
 
 
-config = None
-
-
 def reset():
+    # It will be executed in the end of this module to set up global stuff.
     global default_logger
     global config
     global critical
@@ -149,9 +147,6 @@ def disable(level):
     default_logger.manager.disable = level
 
 
-reset()
-
-
 def getLogger(*args, **kwargs):
     if any(args) or any(kwargs):
         from warnings import warn
@@ -159,3 +154,6 @@ def getLogger(*args, **kwargs):
             "Use alog.getLogger() without arguments instead."
         warn(msg)
     return default_logger
+
+
+reset()
