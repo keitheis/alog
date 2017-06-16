@@ -21,7 +21,7 @@ docs_extras = [
 
 setup(
     name='alog',
-    version='0.9.12-dev',
+    version='0.9.12',
     description='Python logging for Humans',
     long_description=README + '\n\n' + CHANGES,
     url='https://github.com/keitheis/alog',
