@@ -61,6 +61,10 @@ class TestAlog(object):
         alog.set_format("blah")
         alog.turn_process_id(True)
 
+    def test_turn_log_datetime_with_custom_format(self):
+        alog.set_format("blah")
+        alog.turn_log_datetime(True)
+
     def test_not_turn_thread_name(self):
         alog.turn_thread_name(True)
         alog.turn_thread_name(False)

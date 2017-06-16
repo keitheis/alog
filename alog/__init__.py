@@ -10,23 +10,29 @@ from .alogger import (
 
 
 def default_alog_config():
-    return {
-        "custom_format": None,
-        "showing_thread_name": False,
-        "showing_process_id": False,
+    format_config = {
         "default_format":
-            "%(asctime)s %(levelname)-5.5s %(pathname)s%(lineno)s%(message)s",
+            "%(levelname)-5.5s %(pathname)s%(lineno)s%(message)s",
         "default_thread_format": (
-            "%(asctime)s %(levelname)-5.5s %(threadName)s "
+            "%(levelname)-5.5s %(threadName)s "
             "%(pathname)s%(lineno)s%(message)s"),
         "default_process_format": (
-            "%(asctime)s %(levelname)-5.5s PID:%(process)d "
+            "%(levelname)-5.5s PID:%(process)d "
             "%(pathname)s%(lineno)s%(message)s"),
         "default_process_thread_format": (
-            "%(asctime)s %(levelname)-5.5s PID:%(process)d:"
+            "%(levelname)-5.5s PID:%(process)d:"
             "%(threadName)s %(pathname)s%(lineno)s%(message)s"
         )
     }
+
+    config = {
+        "custom_format": None,
+        "showing_thread_name": False,
+        "showing_process_id": False,
+        "showing_log_datetime": False
+    }
+    config.update(format_config)
+    return config
 
 
 def reset():
@@ -44,6 +50,7 @@ def reset():
     global log
     config = default_alog_config()
     default_logger = init_logger(config)
+    turn_log_datetime(on=True)
     critical = default_logger.critical
     fatal = critical
     error = default_logger.error
@@ -55,13 +62,8 @@ def reset():
     log = default_logger.log
 
 
-def turn_thread_name(on):
-    if (default_logger.alog_config.get('custom_format') or
-            default_logger.alog_config['showing_thread_name'] == bool(on)):
-        return
-
-    default_logger.alog_config['showing_thread_name'] = bool(on)
-    if on:
+def _get_logger_showing_fs(log_config):
+    if default_logger.alog_config.get('showing_thread_name'):
         if default_logger.alog_config.get('showing_process_id'):
             fs = default_logger.alog_config['default_process_thread_format']
         else:
@@ -70,6 +72,27 @@ def turn_thread_name(on):
         fs = default_logger.alog_config['default_process_format']
     else:
         fs = default_logger.alog_config['default_format']
+    return fs
+
+
+def turn_log_datetime(on):
+    if (default_logger.alog_config.get('custom_format') or
+            default_logger.alog_config['showing_log_datetime'] == bool(on)):
+        return
+
+    fs = _get_logger_showing_fs(default_logger.alog_config)
+    if on:
+        fs = "%(asctime)s " + fs
+    set_format(fs, default_logger, is_default=True)
+
+
+def turn_thread_name(on):
+    if (default_logger.alog_config.get('custom_format') or
+            default_logger.alog_config['showing_thread_name'] == bool(on)):
+        return
+
+    default_logger.alog_config['showing_thread_name'] = bool(on)
+    fs = _get_logger_showing_fs(default_logger.alog_config)
     set_format(fs, default_logger, is_default=True)
 
 
@@ -79,15 +102,7 @@ def turn_process_id(on):
         return
 
     default_logger.alog_config['showing_process_id'] = bool(on)
-    if on:
-        if default_logger.alog_config.get('showing_thread_name'):
-            fs = default_logger.alog_config['default_process_thread_format']
-        else:
-            fs = default_logger.alog_config['default_process_format']
-    elif default_logger.alog_config.get('showing_thread_name'):
-        fs = default_logger.alog_config['default_thread_format']
-    else:
-        fs = default_logger.alog_config['default_format']
+    fs = _get_logger_showing_fs(default_logger.alog_config)
     set_format(fs, default_logger, is_default=True)
 
 
