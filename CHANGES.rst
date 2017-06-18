@@ -1,12 +1,12 @@
 (Unrelease)
 ===================
 
- - Support not showing_log_datetime by `turn_log_datetime(on=False)`.
+ - Fix not able to ``turn_log_datetime(on=False)``.
 
 0.9.12 (2017-06-16)
 ===================
 
- - Support not showing_log_datetime by `turn_log_datetime(on=False)`.
+ - Support not showing_log_datetime by ``turn_log_datetime(on=False)``.
 
 0.9.11 (2017-04-07)
 ===================

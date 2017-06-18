@@ -29,7 +29,7 @@ def default_alog_config():
         "custom_format": None,
         "showing_thread_name": False,
         "showing_process_id": False,
-        "showing_log_datetime": False
+        "showing_log_datetime": None,
     }
     config.update(format_config)
     return config
@@ -50,7 +50,6 @@ def reset():
     global log
     config = default_alog_config()
     default_logger = init_logger(config)
-    turn_log_datetime(on=True)
     critical = default_logger.critical
     fatal = critical
     error = default_logger.error
@@ -60,6 +59,7 @@ def reset():
     info = default_logger.info
     debug = default_logger.debug
     log = default_logger.log
+    turn_log_datetime(on=True)
 
 
 def _get_logger_showing_fs(log_config):
