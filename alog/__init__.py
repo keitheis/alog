@@ -1,6 +1,10 @@
+import sys
 from logging import (
     StreamHandler,
     Formatter,
+    Filter,
+    INFO,
+    WARNING,
 )
 
 from .alogger import (
@@ -77,7 +81,7 @@ def _get_logger_showing_fs(log_config):
 
 def turn_log_datetime(on):
     if (default_logger.alog_config.get('custom_format') or
-            default_logger.alog_config['showing_log_datetime'] == bool(on)):
+                default_logger.alog_config['showing_log_datetime'] == bool(on)):
         return
 
     fs = _get_logger_showing_fs(default_logger.alog_config)
@@ -88,7 +92,7 @@ def turn_log_datetime(on):
 
 def turn_thread_name(on):
     if (default_logger.alog_config.get('custom_format') or
-            default_logger.alog_config['showing_thread_name'] == bool(on)):
+                default_logger.alog_config['showing_thread_name'] == bool(on)):
         return
 
     default_logger.alog_config['showing_thread_name'] = bool(on)
@@ -98,7 +102,7 @@ def turn_thread_name(on):
 
 def turn_process_id(on):
     if (default_logger.alog_config.get('custom_format') or
-            default_logger.alog_config['showing_process_id'] == bool(on)):
+                default_logger.alog_config['showing_process_id'] == bool(on)):
         return
 
     default_logger.alog_config['showing_process_id'] = bool(on)
@@ -107,10 +111,20 @@ def turn_process_id(on):
 
 
 def init_logger(alog_config, default_root_name=None):
+    class InfoFilter(Filter):
+        def filter(self, rec):
+            return rec.levelno <= INFO
+
     logger = Alogger(default_root_name)
     logger.alog_config = alog_config
-    sh = StreamHandler()
-    logger.addHandler(sh)
+
+    std_out_handler = StreamHandler(sys.stdout)
+    std_out_handler.addFilter(InfoFilter())
+    std_err_handler = StreamHandler()
+    std_err_handler.setLevel(WARNING)
+    logger.addHandler(std_out_handler)
+    logger.addHandler(std_err_handler)
+
     set_format(logger.alog_config['default_format'], logger, is_default=True)
     return logger
 
@@ -166,7 +180,7 @@ def getLogger(*args, **kwargs):
     if any(args) or any(kwargs):
         from warnings import warn
         msg = "alog.getLogger always return alog.default_logger. " \
-            "Use alog.getLogger() without arguments instead."
+              "Use alog.getLogger() without arguments instead."
         warn(msg)
     return default_logger
 
