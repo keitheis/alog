@@ -8,7 +8,7 @@ Alog
   :target: https://codecov.io/gh/keitheis/alog
 
 .. image:: http://img.shields.io/pypi/v/alog.svg?style=flat
-   :target: https://pypi.python.org/pypi/alog
+   :target: https://pypi.org/pypi/alog
 
 Python logging for Humans. Your goto logging module without panic on context 
 swtich.
