@@ -2,6 +2,12 @@ from logging import (
     StreamHandler,
     Formatter,
 )
+from logging import (  # noqa for imported levels
+    INFO,
+    ERROR,
+    WARNING,
+    DEBUG,
+)
 
 from .alogger import (
     in_python2_runtime,
@@ -151,6 +157,12 @@ def set_root_name(root_name, logger=None):
     logger = logger or default_logger
     logger.name = root_name
     logger.root_name = root_name
+
+
+def pdir(obj, str_not_startswith="_"):
+    dired = [attr for attr in dir(obj)
+             if not attr.startswith(str_not_startswith)]
+    return pformat(dired)
 
 
 def pformat(*args, **kwargs):
