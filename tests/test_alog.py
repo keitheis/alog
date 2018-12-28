@@ -107,6 +107,15 @@ class TestAlog(object):
                'list is weird': list(range(10))}
         alog.info(alog.pformat(msg))
 
+    def test_pdir(self):
+        class Thing(object):
+            pass
+        thing = Thing()
+        thing._private_thing = True
+        thing.public_thing = True
+        assert "public_thing" in str(alog.pdir(thing))
+        assert "_private_thing" not in str(alog.pdir(thing))
+
     def test_disable(self):
         alog.disable("INFO")
 
