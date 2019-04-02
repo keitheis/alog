@@ -1,6 +1,10 @@
 (Unrelease)
 ===================
 
+ - Support most same APIs between alog and Alogger.
+ - Add ``alog.pdir()`` for handy replacing ``[attr for attr in dir(obj)
+   if not attr.startswith("_")]``.
+
 0.9.13 (2017-06-18)
 ===================
 

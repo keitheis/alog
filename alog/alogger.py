@@ -1,6 +1,10 @@
 import os
 import sys
-from logging import Logger
+from logging import (
+    Logger,
+    Formatter,
+    getLevelName
+)
 
 in_python2_runtime = sys.version_info[0] == 2
 if in_python2_runtime:  # pragma: no cover
@@ -10,6 +14,8 @@ else:  # pragma: no cover
 
 
 class Alogger(Logger):
+
+    # --- Logger competiable methods --- #
 
     def __init__(self, root_name, *args, **kwargs):
         self.root_name = root_name
@@ -65,3 +71,98 @@ class Alogger(Logger):
                         "Attempt to overwrite %r in LogRecord" % key)
                 rv.__dict__[key] = extra[key]
         return rv
+
+    # --- alog APIs --- #
+
+    def _get_logger_showing_fs(self):
+        if self.alog_config.get('showing_thread_name'):
+            if self.alog_config.get('showing_process_id'):
+                fs = self.alog_config['default_process_thread_format']
+            else:
+                fs = self.alog_config['default_thread_format']
+        elif self.alog_config.get('showing_process_id'):
+            fs = self.alog_config['default_process_format']
+        else:
+            fs = self.alog_config['default_format']
+        return fs
+
+    def turn_log_datetime(self, on):
+        if (
+            self.alog_config.get('custom_format') or
+            self.alog_config['showing_log_datetime'] == bool(on)
+        ):
+            return
+
+        fs = self._get_logger_showing_fs()
+        if on:
+            fs = "%(asctime)s " + fs
+        self.set_format(fs, is_default=True)
+
+    def turn_thread_name(self, on):
+        if (
+            self.alog_config.get('custom_format') or
+            self.alog_config['showing_thread_name'] == bool(on)
+        ):
+            return
+
+        self.alog_config['showing_thread_name'] = bool(on)
+        fs = self._get_logger_showing_fs()
+        self.set_format(fs, is_default=True)
+
+    def turn_process_id(self, on):
+        if (
+            self.alog_config.get('custom_format') or
+            self.alog_config['showing_process_id'] == bool(on)
+        ):
+            return
+
+        self.alog_config['showing_process_id'] = bool(on)
+        fs = self._get_logger_showing_fs()
+        self.set_format(fs, is_default=True)
+
+    @staticmethod
+    def pformat(*args, **kwargs):
+        from pprint import pformat
+        return "\n" + pformat(*args, **kwargs)
+
+    @classmethod
+    def pdir(cls, obj, str_not_startswith="_"):
+        dired = [attr for attr in dir(obj)
+                 if not attr.startswith(str_not_startswith)]
+        return cls.pformat(dired)
+
+    def set_level(self, level, logger=None):
+        logger = logger or self
+        for handler in logger.handlers:
+            handler.setLevel(level)
+
+    def get_level(self, logger=None):
+        logger = logger or self
+        for handler in logger.handlers:
+            if handler.level:
+                return handler.level
+
+    def get_format(self, logger=None):
+        logger = logger or self
+        for handler in self.handlers:
+            if handler.formatter:
+                return handler.formatter
+
+    def set_format(self, fs, alogger=None, is_default=False,
+                   time_strfmt="%Y-%m-%d %H:%M:%S"):
+        alogger = alogger or self
+        formatter = Formatter(fs, time_strfmt) \
+            if in_python2_runtime \
+            else Formatter(fs, time_strfmt, "%")
+        for handler in alogger.handlers:
+            handler.setFormatter(formatter)
+        if not is_default:
+            alogger.alog_config['custom_format'] = fs
+
+    def set_root_name(self, root_name, logger=None):
+        logger = logger or self
+        logger.name = root_name
+        logger.root_name = root_name
+
+    def disable(self, level):
+        self.manager.disable = getLevelName(level)
