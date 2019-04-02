@@ -86,7 +86,7 @@ class Alogger(Logger):
             fs = self.alog_config['default_format']
         return fs
 
-    def turn_log_datetime(self, on):
+    def turn_logging_datetime(self, on):
         if (
             self.alog_config.get('custom_format') or
             self.alog_config['showing_log_datetime'] == bool(on)
@@ -98,7 +98,7 @@ class Alogger(Logger):
             fs = "%(asctime)s " + fs
         self.set_format(fs, is_default=True)
 
-    def turn_thread_name(self, on):
+    def turn_logging_thread_name(self, on):
         if (
             self.alog_config.get('custom_format') or
             self.alog_config['showing_thread_name'] == bool(on)
@@ -109,7 +109,7 @@ class Alogger(Logger):
         fs = self._get_logger_showing_fs()
         self.set_format(fs, is_default=True)
 
-    def turn_process_id(self, on):
+    def turn_logging_process_id(self, on):
         if (
             self.alog_config.get('custom_format') or
             self.alog_config['showing_process_id'] == bool(on)

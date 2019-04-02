@@ -67,7 +67,7 @@ def reset_global_alog():
     info = default_logger.info
     debug = default_logger.debug
     log = default_logger.log
-    default_logger.turn_log_datetime(on=True)
+    default_logger.turn_logging_datetime(on=True)
 
 
 def init_alogger(alog_config, default_root_name=None):
@@ -91,19 +91,19 @@ def getLogger(*args, **kwargs):
 # --- Alogger APIs --- #
 
 
-def turn_log_datetime(on, alogger=None):
+def turn_logging_datetime(on, alogger=None):
     alogger = alogger or default_logger
-    return alogger.turn_log_datetime(on)
+    return alogger.turn_logging_datetime(on)
 
 
-def turn_thread_name(on, alogger=None):
+def turn_logging_thread_name(on, alogger=None):
     alogger = alogger or default_logger
-    return alogger.turn_thread_name(on)
+    return alogger.turn_logging_thread_name(on)
 
 
-def turn_process_id(on, alogger=None):
+def turn_logging_process_id(on, alogger=None):
     alogger = alogger or default_logger
-    return alogger.turn_process_id(on)
+    return alogger.turn_logging_process_id(on)
 
 
 def set_level(level, alogger=None):

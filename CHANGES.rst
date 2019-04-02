@@ -1,6 +1,12 @@
 (Unrelease)
 ===================
 
+ - Renamed:
+
+   - ``turn_logging_datetime(on=True)``
+   - ``turn_logging_thread_name(on=False)``
+   - ``turn_logging_process_id(on=False)``
+
  - Support most same APIs between alog and Alogger.
  - Add ``alog.pdir()`` for handy replacing ``[attr for attr in dir(obj)
    if not attr.startswith("_")]``.
