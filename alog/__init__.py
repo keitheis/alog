@@ -1,6 +1,5 @@
 from logging import (
     StreamHandler,
-    Formatter,
 )
 from logging import (  # noqa for imported levels
     INFO,
@@ -10,9 +9,12 @@ from logging import (  # noqa for imported levels
 )
 
 from .alogger import (
-    in_python2_runtime,
     Alogger
 )
+
+
+pdir = Alogger.pdir
+pformat = Alogger.pformat
 
 
 def default_alog_config():
@@ -41,7 +43,7 @@ def default_alog_config():
     return config
 
 
-def reset():
+def reset_global_alog():
     # It will be executed in the end of this module to set up global stuff.
     global default_logger
     global config
@@ -55,7 +57,7 @@ def reset():
     global debug
     global log
     config = default_alog_config()
-    default_logger = init_logger(config)
+    default_logger = init_alogger(config)
     critical = default_logger.critical
     fatal = critical
     error = default_logger.error
@@ -65,113 +67,16 @@ def reset():
     info = default_logger.info
     debug = default_logger.debug
     log = default_logger.log
-    turn_log_datetime(on=True)
+    default_logger.turn_log_datetime(on=True)
 
 
-def _get_logger_showing_fs(log_config):
-    if default_logger.alog_config.get('showing_thread_name'):
-        if default_logger.alog_config.get('showing_process_id'):
-            fs = default_logger.alog_config['default_process_thread_format']
-        else:
-            fs = default_logger.alog_config['default_thread_format']
-    elif default_logger.alog_config.get('showing_process_id'):
-        fs = default_logger.alog_config['default_process_format']
-    else:
-        fs = default_logger.alog_config['default_format']
-    return fs
-
-
-def turn_log_datetime(on):
-    if (default_logger.alog_config.get('custom_format') or
-            default_logger.alog_config['showing_log_datetime'] == bool(on)):
-        return
-
-    fs = _get_logger_showing_fs(default_logger.alog_config)
-    if on:
-        fs = "%(asctime)s " + fs
-    set_format(fs, default_logger, is_default=True)
-
-
-def turn_thread_name(on):
-    if (default_logger.alog_config.get('custom_format') or
-            default_logger.alog_config['showing_thread_name'] == bool(on)):
-        return
-
-    default_logger.alog_config['showing_thread_name'] = bool(on)
-    fs = _get_logger_showing_fs(default_logger.alog_config)
-    set_format(fs, default_logger, is_default=True)
-
-
-def turn_process_id(on):
-    if (default_logger.alog_config.get('custom_format') or
-            default_logger.alog_config['showing_process_id'] == bool(on)):
-        return
-
-    default_logger.alog_config['showing_process_id'] = bool(on)
-    fs = _get_logger_showing_fs(default_logger.alog_config)
-    set_format(fs, default_logger, is_default=True)
-
-
-def init_logger(alog_config, default_root_name=None):
+def init_alogger(alog_config, default_root_name=None):
     logger = Alogger(default_root_name)
     logger.alog_config = alog_config
     sh = StreamHandler()
     logger.addHandler(sh)
     set_format(logger.alog_config['default_format'], logger, is_default=True)
     return logger
-
-
-def set_level(level, logger=None):
-    logger = logger or default_logger
-    for handler in logger.handlers:
-        handler.setLevel(level)
-
-
-def get_level(logger=None):
-    logger = logger or default_logger
-    for handler in logger.handlers:
-        if handler.level:
-            return handler.level
-
-
-def set_format(fs, logger=None, is_default=False,
-               time_strfmt="%Y-%m-%d %H:%M:%S"):
-    logger = logger or default_logger
-    formatter = Formatter(fs, time_strfmt) \
-        if in_python2_runtime \
-        else Formatter(fs, time_strfmt, "%")
-    for handler in logger.handlers:
-        handler.setFormatter(formatter)
-    if not is_default:
-        logger.alog_config['custom_format'] = fs
-
-
-def get_format(logger=None):
-    logger = logger or default_logger
-    for handler in logger.handlers:
-        if handler.formatter:
-            return handler.formatter
-
-
-def set_root_name(root_name, logger=None):
-    logger = logger or default_logger
-    logger.name = root_name
-    logger.root_name = root_name
-
-
-def pdir(obj, str_not_startswith="_"):
-    dired = [attr for attr in dir(obj)
-             if not attr.startswith(str_not_startswith)]
-    return pformat(dired)
-
-
-def pformat(*args, **kwargs):
-    from pprint import pformat
-    return "\n" + pformat(*args, **kwargs)
-
-
-def disable(level):
-    default_logger.manager.disable = level
 
 
 def getLogger(*args, **kwargs):
@@ -183,4 +88,55 @@ def getLogger(*args, **kwargs):
     return default_logger
 
 
-reset()
+# --- Alogger APIs --- #
+
+
+def turn_log_datetime(on, alogger=None):
+    alogger = alogger or default_logger
+    return alogger.turn_log_datetime(on)
+
+
+def turn_thread_name(on, alogger=None):
+    alogger = alogger or default_logger
+    return alogger.turn_thread_name(on)
+
+
+def turn_process_id(on, alogger=None):
+    alogger = alogger or default_logger
+    return alogger.turn_process_id(on)
+
+
+def set_level(level, alogger=None):
+    alogger = alogger or default_logger
+    return alogger.set_level(level)
+
+
+def get_level(alogger=None):
+    alogger = alogger or default_logger
+    return alogger.get_level()
+
+
+def set_format(fs, alogger=None, is_default=False,
+               time_strfmt="%Y-%m-%d %H:%M:%S"):
+    alogger = alogger or default_logger
+    alogger.set_format(fs, is_default=is_default, time_strfmt=time_strfmt)
+
+
+def get_format(logger=None):
+    logger = logger or default_logger
+    for handler in logger.handlers:
+        if handler.formatter:
+            return handler.formatter
+
+
+def set_root_name(root_name, alogger=None):
+    alogger = alogger or default_logger
+    alogger.set_root_name(root_name)
+
+
+def disable(level, alogger=None):
+    alogger = alogger or default_logger
+    alogger.disable(level)
+
+
+reset_global_alog()
