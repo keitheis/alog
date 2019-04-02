@@ -1,6 +1,9 @@
 (Unrelease)
 ===================
 
+1.0.0 (2019-04-03)
+==================
+
  - Renamed:
 
    - ``turn_logging_datetime(on=True)``

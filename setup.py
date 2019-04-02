@@ -21,15 +21,15 @@ docs_extras = [
 
 setup(
     name='alog',
-    version='0.9.13',
-    description='Python logging for Humans',
+    version='1.0.0',
+    description='Your goto Python logging without panic on context swtich',
     long_description=README + '\n\n' + CHANGES,
     url='https://github.com/keitheis/alog',
     author='Keith Yang',
     author_email='yang@keitheis.org',
     license='Apache 2.0',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Topic :: System :: Logging',

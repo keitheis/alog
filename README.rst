@@ -10,7 +10,7 @@ Alog
 .. image:: http://img.shields.io/pypi/v/alog.svg?style=flat
    :target: https://pypi.org/pypi/alog
 
-Your goto Pythonlogging module without panic on context swtich.
+Your goto Python logging without panic on context swtich.
 
 **Warning:** No more ``logger = logging.getLogger(__name__)`` in your every file.
 
