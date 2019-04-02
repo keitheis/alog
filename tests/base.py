@@ -58,39 +58,39 @@ class AlogTestBase(object):
     def test_warn(self):
         self._alog.warn(msg)
 
-    def test_turn_thread_name(self):
-        self._alog.turn_process_id(True)
-        self._alog.turn_thread_name(True)
+    def test_turn_logging_thread_name(self):
+        self._alog.turn_logging_process_id(True)
+        self._alog.turn_logging_thread_name(True)
 
-    def test_turn_thread_name_with_custom_format(self):
+    def test_turn_logging_thread_name_with_custom_format(self):
         self._alog.set_format("blah")
-        self._alog.turn_thread_name(True)
+        self._alog.turn_logging_thread_name(True)
 
-    def test_turn_process_id_with_custom_format(self):
+    def test_turn_logging_process_id_with_custom_format(self):
         self._alog.set_format("blah")
-        self._alog.turn_process_id(True)
+        self._alog.turn_logging_process_id(True)
 
-    def test_turn_log_datetime_with_custom_format(self):
+    def test_turn_logging_datetime_with_custom_format(self):
         self._alog.set_format("blah")
-        self._alog.turn_log_datetime(True)
+        self._alog.turn_logging_datetime(True)
 
     def test_not_turn_thread_name(self):
-        self._alog.turn_thread_name(True)
-        self._alog.turn_thread_name(False)
+        self._alog.turn_logging_thread_name(True)
+        self._alog.turn_logging_thread_name(False)
 
     def test_not_turn_process_id(self):
-        self._alog.turn_process_id(True)
-        self._alog.turn_process_id(False)
+        self._alog.turn_logging_process_id(True)
+        self._alog.turn_logging_process_id(False)
 
     def test_not_turn_process_id_and_turn_thread_name(self):
-        self._alog.turn_thread_name(True)
-        self._alog.turn_process_id(True)
-        self._alog.turn_process_id(False)
+        self._alog.turn_logging_thread_name(True)
+        self._alog.turn_logging_process_id(True)
+        self._alog.turn_logging_process_id(False)
 
     def test_turn_process_id_and_not_turn_thread_name(self):
-        self._alog.turn_thread_name(True)
-        self._alog.turn_process_id(True)
-        self._alog.turn_thread_name(False)
+        self._alog.turn_logging_thread_name(True)
+        self._alog.turn_logging_process_id(True)
+        self._alog.turn_logging_thread_name(False)
 
     def test_info(self):
         self._alog.info(msg)
@@ -122,5 +122,5 @@ class AlogTestBase(object):
         thing = Thing()
         thing._private_thing = True
         thing.public_thing = True
-        assert "public_thing" in str(self._alog.pdir(thing))
-        assert "_private_thing" not in str(self._alog.pdir(thing))
+        assert "public_thing" in self._alog.pdir(thing)
+        assert "_private_thing" not in self._alog.pdir(thing)

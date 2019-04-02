@@ -10,8 +10,7 @@ Alog
 .. image:: http://img.shields.io/pypi/v/alog.svg?style=flat
    :target: https://pypi.org/pypi/alog
 
-Python logging for Humans. Your goto logging module without panic on context 
-swtich.
+Your goto Pythonlogging module without panic on context swtich.
 
 **Warning:** No more ``logger = logging.getLogger(__name__)`` in your every file.
 
@@ -95,12 +94,36 @@ with ``logging`` module:
     2016-11-23 12:16:30 INFO  [__main__:1] Hello log!
 
 
+Tips
+----
+
+.. code-block:: python
+
+    import alog
+
+    a_complex_json_dict = {...}  # or a_complex_dict
+    alog.info(alog.pformat(a_complex_dict))
+
+    restaurant = Restaurant(...)
+    alog.info(alog.pdir(restaurant))
+    # or just skip attributes starts with "__":
+    alog.info(alog.pdir(restaurant, str_not_startswith="__"))
+    # instead of
+    alog.info([attr for attr in dir(restaurant) if attr.startswith("_")])
+
+    # Play threads?
+    alog.turn_logging_thread_name(on=True)
+    # Processes?
+    alog.turn_logging_process_id(on=True)
+    # No datetime wanted?
+    alog.turn_logging_datetime(on=False)
+
 Why should you use logging instead of print
 -------------------------------------------
 
 The main goal of logging is to figure out what was going on and to get the
-insights. ``print``, by default, does only pure string output. No timestamp, no
-module hint, and no level control, comparing to a pretty logging record.
+insight. ``print``, by default, does simply pure string output. No timestamp,
+no module hint, and no level control, comparing to a pretty logging record.
 
 Lets start with ``aproject/models/user.py`` :
 
