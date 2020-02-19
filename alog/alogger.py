@@ -24,7 +24,7 @@ class Alogger(Logger):
     def _alog_fn(self, fn):
         if 'ipython-input-' in fn:  # pragma: no cover
             return "<IPython"
-        elif fn == '<stdin>':  # pragma: no cover
+        if fn == '<stdin>':  # pragma: no cover
             return '<stdin'
 
         paths = []
