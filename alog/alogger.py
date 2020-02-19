@@ -24,7 +24,7 @@ class Alogger(Logger):
     def _alog_fn(self, fn):
         if 'ipython-input-' in fn:  # pragma: no cover
             return "<IPython"
-        elif fn == '<stdin>':  # pragma: no cover
+        if fn == '<stdin>':  # pragma: no cover
             return '<stdin'
 
         paths = []
@@ -143,10 +143,23 @@ class Alogger(Logger):
                 return handler.level
 
     def get_format(self, logger=None):
-        logger = logger or self
-        for handler in self.handlers:
+        from warnings import warn
+        msg = "`get_format()` actually return a Formatter. " \
+            "Use `get_formatter()` instead."
+        warn(msg)
+        alogger = logger or self
+        return alogger.get_formatter()
+
+    def get_formatter(self, logger=None):
+        alogger = logger or self
+        for handler in alogger.handlers:
             if handler.formatter:
                 return handler.formatter
+
+    def set_formatter(self, formatter, alogger=None):
+        alogger = alogger or self
+        for handler in alogger.handlers:
+            handler.setFormatter(formatter)
 
     def set_format(self, fs, alogger=None, is_default=False,
                    time_strfmt="%Y-%m-%d %H:%M:%S"):
@@ -154,8 +167,7 @@ class Alogger(Logger):
         formatter = Formatter(fs, time_strfmt) \
             if in_python2_runtime \
             else Formatter(fs, time_strfmt, "%")
-        for handler in alogger.handlers:
-            handler.setFormatter(formatter)
+        alogger.set_formatter(formatter, alogger=alogger)
         if not is_default:
             alogger.alog_config['custom_format'] = fs
 

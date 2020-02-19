@@ -21,7 +21,7 @@ docs_extras = [
 
 setup(
     name='alog',
-    version='1.0.0',
+    version='1.1.0',
     description='Your goto Python logging without panic on context swtich',
     long_description=README + '\n\n' + CHANGES,
     url='https://github.com/keitheis/alog',
@@ -42,6 +42,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],

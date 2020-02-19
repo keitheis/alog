@@ -25,12 +25,18 @@ class AlogTestBase(object):
         self._alog.set_level("WARNING")
         assert self._alog.get_level() == logging.WARNING
 
+    def test_get_formatter(self):
+        orig_formatter = self._alog.get_formatter()
+        assert orig_formatter
+        self._alog.set_formatter(orig_formatter)
+
     def test_set_format(self):
-        orig_format = self._alog.get_format()
+        orig_formatter = self._alog.get_format()
+        assert orig_formatter
         fs = "Test set format: %(asctime)s %(levelname)-5.5s" \
             " [%(pathname)s:%(lineno)s] %(message)s"
         self._alog.set_format(fs)
-        self._alog.set_format(orig_format)
+        self._alog.set_formatter(orig_formatter)
 
     def test_set_root_name(self):
         self._alog.set_root_name("alog")
@@ -63,15 +69,15 @@ class AlogTestBase(object):
         self._alog.turn_logging_thread_name(True)
 
     def test_turn_logging_thread_name_with_custom_format(self):
-        self._alog.set_format("blah")
+        self._alog.set_format("blah %(test)s")
         self._alog.turn_logging_thread_name(True)
 
     def test_turn_logging_process_id_with_custom_format(self):
-        self._alog.set_format("blah")
+        self._alog.set_format("blah %(test)s")
         self._alog.turn_logging_process_id(True)
 
     def test_turn_logging_datetime_with_custom_format(self):
-        self._alog.set_format("blah")
+        self._alog.set_format("blah %(test)s")
         self._alog.turn_logging_datetime(True)
 
     def test_not_turn_thread_name(self):

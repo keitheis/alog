@@ -71,12 +71,12 @@ def reset_global_alog():
 
 
 def init_alogger(alog_config, default_root_name=None):
-    logger = Alogger(default_root_name)
-    logger.alog_config = alog_config
+    alogger = Alogger(default_root_name)
+    alogger.alog_config = alog_config
     sh = StreamHandler()
-    logger.addHandler(sh)
-    set_format(logger.alog_config['default_format'], logger, is_default=True)
-    return logger
+    alogger.addHandler(sh)
+    set_format(alogger.alog_config['default_format'], alogger, is_default=True)
+    return alogger
 
 
 def getLogger(*args, **kwargs):
@@ -116,17 +116,25 @@ def get_level(alogger=None):
     return alogger.get_level()
 
 
+def set_formatter(formatter, alogger=None):
+    alogger = alogger or default_logger
+    alogger.set_formatter(formatter)
+
+
 def set_format(fs, alogger=None, is_default=False,
                time_strfmt="%Y-%m-%d %H:%M:%S"):
     alogger = alogger or default_logger
     alogger.set_format(fs, is_default=is_default, time_strfmt=time_strfmt)
 
 
-def get_format(logger=None):
-    logger = logger or default_logger
-    for handler in logger.handlers:
-        if handler.formatter:
-            return handler.formatter
+def get_formatter(alogger=None):
+    alogger = alogger or default_logger
+    return alogger.get_formatter()
+
+
+def get_format(alogger=None):
+    alogger = alogger or default_logger
+    return alogger.get_format()
 
 
 def set_root_name(root_name, alogger=None):

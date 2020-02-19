@@ -1,6 +1,12 @@
 (Unrelease)
 ===================
 
+1.1.0 (2020-02-10)
+==================
+
+ - Support Python 3.8
+ - Fix broken ``set_format`` function when formatter argument is given.
+
 1.0.0 (2019-04-03)
 ==================
 
