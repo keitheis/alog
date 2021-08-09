@@ -21,9 +21,10 @@ docs_extras = [
 
 setup(
     name='alog',
-    version='1.2.0-dev',
+    version='1.2.0',
     description='Your goto Python logging without panic on context swtich',
-    long_description=README + '\n\n' + CHANGES,
+    long_description=README + CHANGES,
+    long_description_content_type="text/x-rst",
     url='https://github.com/keitheis/alog',
     author='Keith Yang',
     author_email='yang@keitheis.org',

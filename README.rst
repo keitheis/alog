@@ -173,3 +173,4 @@ What if you have used ``print`` a log? That's as easy:
   print = alog.info
 
   ... # A lot of print code no needed to change
+
