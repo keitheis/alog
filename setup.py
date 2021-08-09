@@ -1,15 +1,9 @@
-import os
-
 from setuptools import setup
 
-here = os.path.abspath(os.path.dirname(__file__))
-try:
-    with open(os.path.join(here, 'README.rst')) as f:
-        README = f.read()
-    with open(os.path.join(here, 'CHANGES.rst')) as f:
-        CHANGES = f.read()
-except IOError:
-    README = CHANGES = ''
+with open("README.rst", "r", encoding="utf-8") as f:
+    README = f.read()
+with open("CHANGES.rst", "r", encoding="utf-8") as f:
+    CHANGES = f.read()
 
 testing_extras = [
     'pytest-cov',
