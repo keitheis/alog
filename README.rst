@@ -1,8 +1,8 @@
 Alog
 ====
 
-.. image:: https://travis-ci.org/keitheis/alog.svg?branch=master
-  :target: https://travis-ci.org/keitheis/alog
+.. image:: https://travis-ci.com/keitheis/alog.svg?branch=master
+  :target: https://travis-ci.com/keitheis/alog
 
 .. image:: https://codecov.io/gh/keitheis/alog/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/keitheis/alog
