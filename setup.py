@@ -15,7 +15,7 @@ docs_extras = [
 
 setup(
     name='alog',
-    version='1.2.0',
+    version='1.3.0-dev',
     description='Your goto Python logging without panic on context swtich',
     long_description=README + CHANGES,
     long_description_content_type="text/x-rst",
