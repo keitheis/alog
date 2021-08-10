@@ -1,8 +1,9 @@
+# encoding: utf-8
 from setuptools import setup
 
-with open("README.rst", "r", encoding="utf-8") as f:
+with open("README.rst", "r") as f:
     README = f.read()
-with open("CHANGES.rst", "r", encoding="utf-8") as f:
+with open("CHANGES.rst", "r") as f:
     CHANGES = f.read()
 
 testing_extras = [
@@ -15,7 +16,7 @@ docs_extras = [
 
 setup(
     name='alog',
-    version='1.3.0-dev',
+    version='1.3.0-dev1',
     description='Your goto Python logging without panic on context swtich',
     long_description=README + CHANGES,
     long_description_content_type="text/x-rst",
