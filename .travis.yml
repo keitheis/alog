@@ -1,4 +1,5 @@
 # Wire up travis
+dist: focal
 language: python
 sudo: false
 
