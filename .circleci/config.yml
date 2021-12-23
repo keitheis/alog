@@ -20,7 +20,9 @@ jobs:
     steps:
       - checkout
       - run:
-          command: pip install tox
+          command: |
+            pip install tox tox-pyenv
+            pyenv install 2.7.18 3.6.15 3.7.12 3.8/12 3.9.9
       - run:
           command: tox
 
